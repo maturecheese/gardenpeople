@@ -74,7 +74,7 @@
 			 </div>
 		
 		
-		<form role="form" action="Results" method="post">
+		<form role="form" action="" method="post">
 		<h3>Looking for a particular gardener? Enter their name below.</h3>
 			<div class="form-group">
 				<input type="text" class="form-control" name="searchterm"

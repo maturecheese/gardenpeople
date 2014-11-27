@@ -28,15 +28,8 @@ public class ResultsServlet extends HttpServlet {
 
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher( "/WEB-INF/results.jsp" ).forward(
-	            request, response );
-		
-	}
-
-	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if (request.getParameter("searchbyname") != null){
-	        String nameStr = request.getParameter("searchterm");
+		if (request.getParameter("name") != null){
+	        String nameStr = request.getParameter("name");
 	        
 	        UserDAO userDAO = new UserDAO();
 			List<User> results  = userDAO.findGardenerByName(nameStr);
@@ -55,6 +48,31 @@ public class ResultsServlet extends HttpServlet {
 	        request.getRequestDispatcher("/WEB-INF/results.jsp").forward(request, response); */
 			//response.getWriter().print(nameStr);
 		}
+		
+	}
+
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//if (request.getParameter("searchbyname") != null){
+	        /*String nameStr = request.getParameter("searchterm");
+	        
+	        UserDAO userDAO = new UserDAO();
+			List<User> results  = userDAO.findGardenerByName(nameStr);
+			
+	        
+	        request.setAttribute("allGardeners", results);
+	        request.getRequestDispatcher("/WEB-INF/results.jsp").forward(request, response); */
+	        
+	        
+/*
+			ArrayList<String> list = new ArrayList<String>();
+			list.add("A");
+			list.add("B");
+			list.add("C");
+	        request.setAttribute("test", list);
+	        request.getRequestDispatcher("/WEB-INF/results.jsp").forward(request, response); */
+			//response.getWriter().print(nameStr);
+		//}
 	}
 
 }

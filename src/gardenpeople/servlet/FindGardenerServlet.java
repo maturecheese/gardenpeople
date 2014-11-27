@@ -27,7 +27,7 @@ public class FindGardenerServlet extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if (request.getParameter("searchbyname") != null){
-			response.getWriter().print("hfhdfhe");
+			response.sendRedirect("./Results?name="+request.getParameter("searchterm"));
 		}
 	}
 
