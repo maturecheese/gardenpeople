@@ -1,0 +1,81 @@
+
+body { padding-top: 70px; }
+
+.register {
+	width:40% !important;
+	margin: 30%;
+	margin-top: 20px;
+	margin-left: 55px;
+	
+}
+.error{
+	color: #b92c28;
+}
+.confirmation{
+	color:#2aabd2;
+}
+
+
+
+
+
+.bg-light-gray {
+    background-color: #f7f7f7;
+}
+
+header {
+    text-align: center;
+    color: white;
+	
+    background-attachment: scroll;
+    background-image: url(../img/italy.jpg);
+    background-position: center center;
+    background-repeat: none;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+	vertical-align: middle;
+    -o-background-size: cover;
+}
+
+.textcenter{
+text-align: center;
+
+}
+
+tr.spaceUnder > td
+{
+  padding-bottom: 1em;
+}
+
+
+    .btn-file {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+    }
+    
+input[readonly] {
+  background-color: white !important;
+  cursor: text !important;
+}
+
+.upload{
+	margin-top:15px;
+}
+}
