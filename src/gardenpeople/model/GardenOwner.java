@@ -14,4 +14,7 @@ public class GardenOwner extends User{
 		super(username, email, password);
 	}
 
+	public GardenOwner (User user){
+		super(user);
+	}
 }

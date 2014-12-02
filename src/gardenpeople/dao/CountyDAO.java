@@ -14,21 +14,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class CountyDAO {
-	Connection connection;
-	Statement stmt;
+public class CountyDAO extends DAO {
 
-	private int noOfRecords;
 
 	public CountyDAO() {
 	}
 
-	private static Connection getConnection() throws SQLException,
-			ClassNotFoundException {
 
-		Connection con = ConnectionFactory.getInstance().getConnection();
-		return con;
-	}
 
 	public ArrayList<County> findAll() {
 		ArrayList<County> counties = new ArrayList<County>();
@@ -46,8 +38,8 @@ public class CountyDAO {
 			e.printStackTrace();
 		} finally {
 			try {
-				if (stmt != null)
-					stmt.close();
+				if (pStatement!= null)
+					pStatement.close();
 				if (connection != null)
 					connection.close();
 			} catch (SQLException e) {

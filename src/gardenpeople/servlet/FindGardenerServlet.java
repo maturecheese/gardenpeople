@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-@WebServlet("/FindGardener")
+@WebServlet("/findGardener")
 public class FindGardenerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
  

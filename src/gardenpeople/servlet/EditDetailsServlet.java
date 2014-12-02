@@ -1,16 +1,19 @@
 package gardenpeople.servlet;
 
 import gardenpeople.dao.UserDAO;
-import gardenpeople.model.County;
+import gardenpeople.exception.UserFriendlySQLException;
 import gardenpeople.model.GardenOwner;
 import gardenpeople.model.Gardener;
+import gardenpeople.model.PublicProfile;
 import gardenpeople.model.User;
+import gardenpeople.validator.UserValidator;
 
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Enumeration;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -36,9 +39,13 @@ public class EditDetailsServlet extends HttpServlet {
 			response.sendRedirect("home");
 			return;
 		}
-		
-		ArrayList<County> counties = (ArrayList<County>) getServletContext().getAttribute("counties");
-		request.setAttribute("counties", counties);
+
+		/*if(request.getAttribute("editedUser") != null){
+			request.setAttribute("user", request.getAttribute("editedUser"));
+		}else{
+			request.setAttribute("user", request.getSession(false).getAttribute("user"));
+		}*/
+
 		request.getRequestDispatcher( "/WEB-INF/details.jsp" ).forward(
 	            request, response );
 	}
@@ -50,78 +57,64 @@ public class EditDetailsServlet extends HttpServlet {
 			response.sendRedirect("home");
 			return;
 		}
-		
-		
+
+		User user = (User) request.getSession(false).getAttribute("user");
+		User editedUser = null;
+		if (user.isGardener()){
+			editedUser = new Gardener(user);
+		}else{
+			editedUser = new GardenOwner(user);
+		}
+		Enumeration<String> parameterNames = request.getParameterNames();
+		while(parameterNames.hasMoreElements()){
+			String parameterName = parameterNames.nextElement();
+			String parameterValue = request.getParameter(parameterName);
+			editedUser.setFromParameterName(parameterName, parameterValue);
+		}
+
+		UserValidator v = new UserValidator();
+		boolean editWithPasswords = editedUser.hasSetPasswords();
+		System.out.println(editWithPasswords);
+		if(editWithPasswords){
+
+			v.checkUserWithPasswords(editedUser);
+		}else{
+			v.checkUserWithoutPasswords(editedUser);
+		}
+
+		request.getSession(false).setAttribute("user", editedUser);
+		if(v.getErrors().size()> 0){
+			request.setAttribute("errors", v.getErrors());
+			request.getRequestDispatcher( "/WEB-INF/details.jsp" ).forward(
+					request, response);
+			return;
+		}
+
 		ArrayList<String> errors = new ArrayList<String>();
-		String confirmationMessage = null;
-		String email = request.getParameter("email");
-		String password1 = request.getParameter("password1");
-		String password2 = request.getParameter("password2");
-		
-		String firstName = request.getParameter("firstName");
-		String lastName = request.getParameter("lastName");
-		String house = request.getParameter("house");
-		String street = request.getParameter("street");
-		String postCode = request.getParameter("postCode");
-		String county = request.getParameter("county");
-		
-		System.out.println(password1.length());
-		System.out.println("!sgsd "+county);
-		
-		
-		if (email == null || email.length() < 4 || !email.contains("@")){
-			errors.add("invalid email");
+		UserDAO userDao = new UserDAO();
+		try {
+			if (editWithPasswords) {
+                userDao.editUserDetailsWithPassword(editedUser);
+
+            }else {
+                userDao.editUserDetailsWithoutPassword(editedUser);
+            }
+		} catch (UserFriendlySQLException e) {
+			errors.add(e.getMessage());
+			request.setAttribute("errors", errors);
+			request.getRequestDispatcher( "/WEB-INF/details.jsp" ).forward(
+					request, response);
+			return;
 		}
-		boolean newPasswordSet = (password1 != null && password1.length() !=0 );
-		if(newPasswordSet && !checkPasswords(password1, password2)){
-			errors.add("new password must be at least 4 characters and both password fields must match");
-		}
-		
-		
-		if (errors.isEmpty()){
-			User user = (User) request.getSession().getAttribute("user");
-			user.setEmail(email);
-			user.setFirstName(firstName);
-			user.setLastName(lastName);
-			user.setHouseNumberName(house);
-			user.setStreet(street);
-			user.setPostcode(postCode);
-			if(county != null){
-				user.setCounty(Integer.parseInt(county));
-			}
-			UserDAO userDao = new UserDAO();
-			boolean updateSuccess;
-			if(newPasswordSet){
-				user.setPassword(password1);
-				updateSuccess = userDao.editUserDetailsWithPassword(user);
-			}else{
-				updateSuccess = userDao.editUserDetailsWithoutPassword(user);
-			}
-			
-			if( !updateSuccess){
-				errors.add("there was an error saving these details");
-			}else{
-				DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-				Date date = new Date();
-				confirmationMessage = "sucessfully saved changes at " + dateFormat.format(date);
-				request.setAttribute("confirmation", confirmationMessage);
-				request.getSession().setAttribute("user", user);
-			}
-		}
-		
-		request.setAttribute("errors", errors);
-		doGet(request, response);
+		///hopefully everything went ok ....
+		request.setAttribute("confirmation", v.getConfirmationWithTime());
+		request.getRequestDispatcher( "/WEB-INF/details.jsp" ).forward(
+				request, response );
+
 	}
+
+
 	
-	private boolean checkPasswords(String password1, String password2){
-		if(password1 != null && password1.length() !=0 ){
-			if ( password1.length() < 4 || !password1.equals(password2)){
-				System.out.println("password1 != null && password1.length() !=0 ");
-				return false;
-			}
-			
-		}
-		return true;
-	}
+
 
 }

@@ -6,37 +6,110 @@ import java.security.NoSuchAlgorithmException;
 
 public class User {
 
+
+
 	protected String username;
 	protected String email;
 	protected String password;
-	
-	
+	protected String repeatedPassword;
+	protected String accountType;
+
+
 	protected String firstName;
 	protected String lastName;
-	
+
 
 	protected String houseNumberName;
 	protected String street;
 	protected int county;
 	protected String postcode;
-	
-	
-	
+	private long autoIncrementID;
 
+
+	public User (){}
 	public User(String username, String email) {
-		
+
 		this.username = username;
 		this.email = email;
-		
+
 	}
-	
-	
+
+
 	public User(String username, String email, String password) {
-		
+
 		this.username = username;
 		this.email = email;
 		this.password = password;
 	}
+	public User(User user){
+		this.username = user.getUsername();
+		this.email = user.getEmail();
+		this.password = user.getPassword();
+		this.accountType = user.getAccountType();
+		this.firstName = user.getFirstName();
+		this.lastName = user.getLastName();
+		this.houseNumberName = user.getHouseNumberName();
+		this.street = user.getStreet();
+		this.postcode = user.getPostcode();
+		this.autoIncrementID = user.getAutoIncrementID();
+	}
+
+	public void setFromParameterName(String parameterName,String parameterValue){
+		switch (parameterName){
+			case "email":
+				this.email = parameterValue;
+				break;
+			case "password1":
+				this.password = parameterValue;
+				break;
+			case "password2":
+				this.repeatedPassword = parameterValue;
+				break;
+			case "firstName":
+				this.firstName = parameterValue;
+				break;
+			case "lastName":
+				this.lastName = parameterValue;
+				break;
+			case "house":
+				this.houseNumberName = parameterValue;
+				break;
+			case "postcode":
+				this.postcode = parameterValue;
+				break;
+			case "street":
+				this.street = parameterValue;
+				break;
+			default:
+				break;
+		}
+
+	}
+
+	public long getAutoIncrementID() {
+		return autoIncrementID;
+	}
+
+	public void setAutoIncrementID(long autoIncrementID) {
+		this.autoIncrementID = autoIncrementID;
+	}
+
+	public String getAccountType() {
+		return accountType;
+	}
+
+	public void setAccountType(String accountType) {
+		this.accountType = accountType;
+	}
+
+	public String getRepeatedPassword() {
+		return repeatedPassword;
+	}
+
+	public void setRepeatedPassword(String repeatedPassword) {
+		this.repeatedPassword = repeatedPassword;
+	}
+
 
 	public String getFirstName() {
 		return firstName;
@@ -110,9 +183,18 @@ public class User {
 			
 	}
 	public boolean isGardener(){
-		return (this instanceof Gardener);
+		if (accountType.equals("gardener")){
+			return  true;
+		}
+		return false;
 	}
-	
+
+	public boolean hasSetPasswords(){
+		if( password != null && password.length() >0){
+			return true;
+		}
+		return false;
+	}
 	
 	public static String sha1(String s) {
 	    try {
@@ -137,6 +219,7 @@ public class User {
 	    }
 	    return sb.toString();
 	}
+
 	
 	
 	

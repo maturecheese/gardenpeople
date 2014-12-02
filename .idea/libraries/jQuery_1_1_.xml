@@ -1,0 +1,16 @@
+<component name="libraryTable">
+  <library name="jQuery 1.1." type="javaScript">
+    <properties>
+      <option name="frameworkName" value="jQuery" />
+      <option name="frameworkVersion" value="1.1." />
+      <sourceFilesUrls>
+        <item url="file://$PROJECT_DIR$/../../../apache-tomcat-8.0.15/jquery-2.1.1.js" />
+      </sourceFilesUrls>
+    </properties>
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../../../apache-tomcat-8.0.15/jquery-2.1.1.js" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

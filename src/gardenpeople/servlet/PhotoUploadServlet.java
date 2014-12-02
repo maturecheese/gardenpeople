@@ -1,4 +1,8 @@
+/*
 package gardenpeople.servlet;
+
+import gardenpeople.dao.ImageDAO;
+import gardenpeople.model.User;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,23 +25,29 @@ public class PhotoUploadServlet extends HttpServlet {
   
     private static final long serialVersionUID = 205242440643911308L;
      
-    /**
+    */
+/**
      * Directory where uploaded files will be saved, its relative to
      * the web application directory.
      * From http://www.journaldev.com/2122/servlet-3-file-upload-using-multipartconfig-annotation-and-part-interface
-     */
-    private static final String UPLOAD_DIR = "uploads";
+     *//*
+
+    private static final String UPLOAD_PATH = "G:\\JavaEE_Dev\\imageServer\\images";
+    private static final String ACCESS_ROOT = "/images/";
       
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
         // gets absolute path of the web application
     	
-        String applicationPath = request.getServletContext().getRealPath("");
+        */
+/*String applicationPath = request.getServletContext().getRealPath("");
         // constructs path of the directory to save uploaded file
-        String uploadFilePath = applicationPath + File.separator + UPLOAD_DIR;
+        String uploadFilePath = applicationPath + File.separator + UPLOAD_DIR;*//*
+
           
         // creates the save directory if it does not exists
-        File fileSaveDir = new File(uploadFilePath);
+        User user = (User)request.getSession(false).getAttribute("user");
+        File fileSaveDir = new File(UPLOAD_PATH );
         if (!fileSaveDir.exists()) {
             fileSaveDir.mkdirs();
         }
@@ -45,19 +55,32 @@ public class PhotoUploadServlet extends HttpServlet {
          
         String fileName = null;
         //Get all the parts from request and write it to the file on server
-        for (Part part : request.getParts()) {
+        */
+/*for (Part part : request.getParts()) {
             fileName = getFileName(part);
-            part.write(uploadFilePath + File.separator + fileName);
-        }
-  
+            part.write(fileSaveDir.getAbsolutePath()+ File.separator +user.getAutoIncrementID() +"__"+ fileName);
+        }*//*
+
+        */
+/*ImageDAO imageDAO= new ImageDAO();
+
+        imageDAO.addImagePath(user.getAutoIncrementID(), ACCESS_ROOT + user.getAutoIncrementID() +"__" + fileName);
+  *//*
+
         request.setAttribute("message", fileName + " File uploaded successfully!");
-        getServletContext().getRequestDispatcher("/WEB-INF/profile.jsp").forward(
-                request, response);
+        response.sendRedirect("/photos");
+
+        //request.getRequestDispatcher("photos").forward(request, response);
+
+
+
     }
   
-    /**
+    */
+/**
      * Utility method to get file name from HTTP header content-disposition
-     */
+     *//*
+
     private String getFileName(Part part) {
         String contentDisp = part.getHeader("content-disposition");
         System.out.println("content-disposition header= "+contentDisp);
@@ -69,4 +92,4 @@ public class PhotoUploadServlet extends HttpServlet {
         }
         return "";
     }
-}
+}*/

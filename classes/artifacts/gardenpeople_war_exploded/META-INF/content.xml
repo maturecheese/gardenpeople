@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!-- The contents of this file will be loaded for each web application -->
+  <Context crossContext="true">
+ 
+    <!-- Default set of monitored resources -->
+    <WatchedResource>WEB-INF/web.xml</WatchedResource>
+     
+   <Resource name="jdbc/testDB" auth="Container"
+        type="javax.sql.DataSource"
+        maxActive="4" maxIdle="30" maxWait="10000"
+        username="b031b192ea7961"
+        password="8c4aa023"
+        driverClassName="com.mysql.jdbc.Driver"
+        url="jdbc:mysql://eu-cdbr-azure-north-b.cloudapp.net/cdb_2e8f95e644"/>
+</Context>
