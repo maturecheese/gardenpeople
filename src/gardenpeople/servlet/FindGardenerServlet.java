@@ -29,6 +29,9 @@ public class FindGardenerServlet extends HttpServlet {
 		if (request.getParameter("searchbyname") != null){
 			response.sendRedirect("./Results?name="+request.getParameter("searchterm"));
 		}
+		else if (request.getParameter("searchbypos") != null){
+			response.sendRedirect("./Results?lat="+request.getParameter("Latitude")+"&lng="+request.getParameter("Longitude")+"&radius="+request.getParameter("radius"));
+		}
 	}
 
 }

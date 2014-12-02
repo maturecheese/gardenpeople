@@ -7,9 +7,13 @@ import gardenpeople.model.PublicProfile;
 
 
 
+import gardenpeople.model.User;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -193,6 +197,47 @@ public class PublicProfileDAO extends DAO {
         }
         return false;
     }
+
+	public List<PublicProfile> findGardenerByPos(float lat, float lng, int radius) {
+		// TODO Auto-generated method stub
+		List<PublicProfile> ll = new ArrayList<PublicProfile>();
+		
+    	
+		
+        try {
+            String query = "SELECT username, ( 3959 * acos( cos( radians(?) ) * cos( radians(lat ) ) * cos( radians(lng) - radians(?)) + sin(radians(?))  * sin( radians(lat)))) AS distance, radius FROM profiles  HAVING (distance < radius AND distance < ?) ORDER BY distance;";
+            connection = getConnection();
+            PreparedStatement pStatement = connection.prepareStatement(query);
+            pStatement.setFloat(1, lat);
+            pStatement.setFloat(2, lng);
+            pStatement.setFloat(3, lat);
+            pStatement.setInt(4, radius);
+            ResultSet resultSet = pStatement.executeQuery();
+            while (resultSet.next()) {
+				PublicProfile user = new PublicProfile(resultSet.getString("username"));
+
+	    	  //Assuming you have a user object
+
+	    	  ll.add(user);
+	    	}
+            
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if(pStatement != null)
+                    pStatement.close();
+                if(connection != null)
+                    connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return  ll;
+	}
 
 }
 

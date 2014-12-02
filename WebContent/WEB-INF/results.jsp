@@ -63,12 +63,12 @@
 		<h1>Results</h1>
 		
 		 <table border="1">
-            <th>First Name</th>
-            <th>Last Name</th>
+            <th>UserName</th>
+           <!--  <th>Last Name</th>--> 
             <c:forEach items="${allGardeners}" var="gard">
                 <tr>
-                    <td>${gard.firstName}</td>
-                    <td>${gard.lastName}</td>
+                    <td>${gard.username}</td>
+                   <%--   <td>${gard.lastName}</td>--%> 
                 </tr>
             </c:forEach>
         </table>  

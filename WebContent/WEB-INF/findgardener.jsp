@@ -103,9 +103,11 @@
 				<label>Or Within:</label>
 				<div class="form-inline">
 					<div class="form-group">
-						<select class="form-control" name="nationality" required>
+						<select class="form-control" name="radius" required>
 							<option value="" disabled selected>Select your option</option>
-							<option value="5miles">5 miles</option>
+							<option value="5">5 miles</option>
+							<option value="10">10 miles</option>
+							<option value="20">20 miles</option>
 						</select>
 						<label>of</label>
 					</div>
@@ -251,8 +253,7 @@
 			</div>
 		</div>
 		</div>
-		   <button type="submit" class="btn btn-default"
-				style="margin-bottom : 5vw">Search</button>
+		    <input type="submit" name="searchbypos" value="Search" />
 		
 		   
 		   </form>

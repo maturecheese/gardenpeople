@@ -1,6 +1,8 @@
 package gardenpeople.servlet;
 
+import gardenpeople.dao.PublicProfileDAO;
 import gardenpeople.dao.UserDAO;
+import gardenpeople.model.PublicProfile;
 import gardenpeople.model.User;
 
 import java.io.IOException;
@@ -33,6 +35,28 @@ public class ResultsServlet extends HttpServlet {
 	        
 	        UserDAO userDAO = new UserDAO();
 			List<User> results  = userDAO.findGardenerByName(nameStr);
+			
+	        
+	        request.setAttribute("allGardeners", results);
+	        request.getRequestDispatcher("/WEB-INF/results.jsp").forward(request, response); 
+	        
+	        
+/*
+			ArrayList<String> list = new ArrayList<String>();
+			list.add("A");
+			list.add("B");
+			list.add("C");
+	        request.setAttribute("test", list);
+	        request.getRequestDispatcher("/WEB-INF/results.jsp").forward(request, response); */
+			//response.getWriter().print(nameStr);
+		}
+		else if (request.getParameter("lat") != null){
+	        float lat = Float.parseFloat(request.getParameter("lat"));
+	        float lng = Float.parseFloat(request.getParameter("lng"));
+	        int radius = Integer.parseInt(request.getParameter("radius"));
+	        
+	        PublicProfileDAO publicProfileDAO = new PublicProfileDAO();
+			List<PublicProfile> results  = publicProfileDAO.findGardenerByPos(lat,lng,radius);
 			
 	        
 	        request.setAttribute("allGardeners", results);

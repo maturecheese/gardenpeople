@@ -9,6 +9,7 @@ import gardenpeople.validator.ProfileValidator;
 
 import java.io.IOException;
 import java.util.Enumeration;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -83,6 +84,7 @@ public class EditProfileServlet extends HttpServlet {
             }
 		} catch (UserFriendlySQLException e) {
 			//TODO add error msg to request attribute
+			System.out.println("AN SQL ERROR HAS OCCURRED!!!");
 			request.getRequestDispatcher( "/WEB-INF/profile.jsp" ).forward(
 					request, response );
 			return;
