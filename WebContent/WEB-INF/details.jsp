@@ -92,7 +92,7 @@
 		</div>
 	</div>
 
-	<div class="register">
+	<div class="container">
 	<h1>My Details
 	</h1>
 
@@ -118,7 +118,25 @@
 		</c:if> 
 		</div>--%>
 
-
+<div class = "row">
+	<div class = col-lg-6>
+	<h2></h2>
+		<div class="panel panel-default">
+			  <div class="panel-heading">
+			    <h3 class="panel-title">Details</h3>
+			  </div>
+			  <div class="panel-body">
+			    <b>Email</b>: ${user.email} <br>
+			    <b>First Name</b>: ${user.firstName} <br>
+			    <b>Last Name</b>: ${user.lastName} <br>
+			    <b>House number or name</b>: ${user.houseNumberName}<br>
+			    <b>Street Name</b>: ${user.street} <br>
+			    <b>Post Code</b>: ${user.postcode} <br>
+			  </div>
+		</div>
+	</div>
+	<div class = "col-lg-6">
+	<h2>Change My Details</h2>
 		<form role="form" action="details" method="post">
 			
 			<div class="form-group">
@@ -185,7 +203,8 @@
 
 			<button type="submit" class="btn btn-default">Save All Changes</button>
 		</form>
-		
+		</div>
+</div>		
 	</div>
 	<!-- jquery-->
 <script src="${pageContext.request.contextPath}/resources/js/jquery-2.1.1.min.js"></script>

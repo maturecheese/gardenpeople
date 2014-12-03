@@ -107,10 +107,16 @@
 
 <div style = "margin-bottom:100px"></div>
 <div class = "container">
-		<h1>Results</h1>
+<h1>Results</h1>
+<table class = "table">
+		<thead>
+			<tr>
+			<th>Username</th>
+			</tr>
+		</thead>
 		
-		 <table border="1">
-            <th>UserName</th>
+	
+            <tbody>
            <!--  <th>Last Name</th>--> 
             <c:forEach items="${allGardeners}" var="gard">
                 <tr>
@@ -118,8 +124,8 @@
                    <%--   <td>${gard.lastName}</td>--%> 
                 </tr>
             </c:forEach>
-        </table>  
-
+        </tbody>
+</table>
 
 
 
