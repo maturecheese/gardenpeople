@@ -214,11 +214,30 @@ public class PublicProfileDAO extends DAO {
             pStatement.setInt(4, radius);
             ResultSet resultSet = pStatement.executeQuery();
             while (resultSet.next()) {
-				PublicProfile user = new PublicProfile(resultSet.getString("username"));
-
+				PublicProfile publicProfile = new PublicProfile(resultSet.getString("username"));
+                publicProfile.setTradename(resultSet.getString("tradename"));
+                publicProfile.setDescription(resultSet.getString("description"));
+                publicProfile.setLatitude(resultSet.getFloat("lat"));
+                publicProfile.setLongitude(resultSet.getFloat("lng"));
+                publicProfile.setRadius(resultSet.getInt("radius"));
+                publicProfile.setRhs1(resultSet.getBoolean("rhs_1"));
+                publicProfile.setRhs2(resultSet.getBoolean("rhs_2"));
+                publicProfile.setRhs3(resultSet.getBoolean("rhs_3"));
+                publicProfile.setRhsMaster(resultSet.getBoolean("rhs_master"));
+                publicProfile.setMaintenanceOffered(resultSet.getBoolean("maintenance"));
+                publicProfile.setDesignOffered(resultSet.getBoolean("design"));
+                publicProfile.setTreeSurgeryOffered(resultSet.getBoolean("treesurgery"));
+                publicProfile.setWaterFeaturesOffered(resultSet.getBoolean("waterfeatures"));
+                publicProfile.setFencingOffered(resultSet.getBoolean("maintenance"));
+                publicProfile.setMaintenanceOffered(resultSet.getBoolean("fencing"));
+                publicProfile.setPavingOffered(resultSet.getBoolean("paving"));
+                publicProfile.setDeckingOffered(resultSet.getBoolean("decking"));
+                publicProfile.setGoogleLocation(resultSet.getString("google_location"));
+               // publicProfile.setRecordedOnDatabase(true);
+               // publicProfile.setUpdatedAt(resultSet.getTimestamp("updated_at"));
 	    	  //Assuming you have a user object
 
-	    	  ll.add(user);
+	    	  ll.add(publicProfile);
 	    	}
             
 

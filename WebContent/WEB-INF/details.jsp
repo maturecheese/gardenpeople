@@ -132,6 +132,10 @@
 			    <b>House number or name</b>: ${user.houseNumberName}<br>
 			    <b>Street Name</b>: ${user.street} <br>
 			    <b>Post Code</b>: ${user.postcode} <br>
+			    <c:if test="${sessionScope.user.gardener}">
+					<b>Company or trading name:</b>${user.publicProfile.tradename}<br>
+					<b>Description:</b>${user.publicProfile.description}<br>
+				</c:if>
 			  </div>
 		</div>
 	</div>

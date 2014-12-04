@@ -145,6 +145,8 @@
 		<form role="form" action="" method="post">
 		<div class="row">
 				<!--row for "find a gardener in:"-->
+				
+				<!-- 
 			<div class="col-md-6">
 				<label>Find a gardener in:</label>
 				<div class="form-group">
@@ -154,9 +156,9 @@
 					</select>
 				</div>
 			</div>
-			
+			-->
 			<div class="col-md-6">
-				<label>Or Within:</label>
+				<!-- <label>Or Within:</label
 				<div class="form-inline">
 					<div class="form-group">
 						<select class="form-control" name="radius" required>
@@ -167,9 +169,9 @@
 						</select>
 						<label>of</label>
 					</div>
-				</div>			
-			</div>
-		</div>
+				</div>	-->		
+			<!-- </div>-->	
+		<!--</div>-->	
 			<!--row for "find a gardener in:"-->
 		
 		<div class="row">
@@ -184,21 +186,21 @@
 				</div>
 
 			<!--table for address form-->
-			<table id="address">
+			<!-- <table id="address">
 				<tr class="spaceUnder">
 					<td>Address</td> <!-- if location doesnt work use address instead-->
-					<td colspan="3"><input class="form-control" id="Address"
-								name="Address" disabled="true" />  </td>
-				</tr>
-				
+					<!--<td colspan="3"><input class="form-control" id="Address"
+								name="Address" disabled="true" />  </td>-->
+				<!-- </tr>-->
+				<!--  
 				<tr class="spaceUnder">
 					<td>Street address</td>
 					<td><input class="form-control" id="street_number"
 								name="StreetNumber" disabled="true"></input></td>
 					<td colspan="2"><input class="form-control" id="route"
 								name="Route" disabled="true"></input></td> <!-- route is street name e.g. gower street -->
-				</tr>
-		   
+				<!--  </tr>-->
+		   <!--  
 				<tr tr class="spaceUnder">
 					<td>City</td>
 					<td colspan="3"><input class="form-control" id="locality"
@@ -219,7 +221,7 @@
 					<td colspan="3"><input class="form-control" id="country"
 								name="Country" disabled="true"></input></td>	
 				</tr>
-		  
+		  		-->
 				<tr tr class="spaceUnder">
 					<td>Latitude</td>
 					<td><input id="Latitude" class="field" name="Latitude"
