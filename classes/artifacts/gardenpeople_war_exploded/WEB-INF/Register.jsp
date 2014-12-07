@@ -168,6 +168,11 @@
 					class="form-control" id="postCode" name="postcode"
 					placeholder="Enter post code" value="${requestScope.user.postcode}">
 			</div>
+			<div class="form-group">
+				<label for="phone">Phone Number:</label> <input type="text"
+																class="form-control" id="phone" name="phone"
+																placeholder="Enter post code" value="${requestScope.user.phone}">
+			</div>
 			<%--<div class="form-group">
 				<label for="county">Select County:</label> <select class="form-control"
 					id="county" name="county" value="">

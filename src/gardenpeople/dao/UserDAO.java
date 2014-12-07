@@ -26,7 +26,7 @@ public class UserDAO extends DAO {
     public boolean editUserDetailsWithPassword(User user) throws UserFriendlySQLException{
     	int updated =0;
     	String query = "UPDATE users SET email=? , password=? , first_name=? ,"
-    			+ " last_name=? , house=? , street=? , postCode=? , county=?"
+    			+ " last_name=? , house=? , street=? , postCode=? , county=?, phone=?"
                 + " WHERE username=?";
     	try {
 			connection = getConnection();
@@ -39,7 +39,8 @@ public class UserDAO extends DAO {
 			pStatement.setString(6, user.getStreet());
 			pStatement.setString(7, user.getPostcode());
 			pStatement.setInt(8, user.getCounty());
-			pStatement.setString(9, user.getUsername());
+			pStatement.setString(9, user.getPhone());
+			pStatement.setString(10, user.getUsername());
 			updated = pStatement.executeUpdate();
 		
 		} catch (ClassNotFoundException e) {
@@ -69,7 +70,7 @@ public class UserDAO extends DAO {
     public boolean editUserDetailsWithoutPassword (User user)throws UserFriendlySQLException{
     	int updated =0;
     	String query = "UPDATE users SET email=? , first_name=? ,"
-    			+ " last_name=? , house=? , street=? , postCode=? , county=?"
+    			+ " last_name=? , house=? , street=? , postCode=? , county=?, phone=?"
                 + " WHERE username=?";
     	try {
 			connection = getConnection();
@@ -81,7 +82,8 @@ public class UserDAO extends DAO {
 			pStatement.setString(5, user.getStreet());
 			pStatement.setString(6, user.getPostcode());
 			pStatement.setInt(7, user.getCounty());
-			pStatement.setString(8, user.getUsername());
+			pStatement.setString(8, user.getPhone());
+			pStatement.setString(9, user.getUsername());
 			updated = pStatement.executeUpdate();
 		
 		} catch (ClassNotFoundException e) {
@@ -137,6 +139,7 @@ public class UserDAO extends DAO {
 				user.setStreet(resultSet.getString("street"));
 				user.setPostcode(resultSet.getString("postcode"));
 				user.setCounty(resultSet.getInt("county"));
+				user.setPhone(resultSet.getString("phone"));
 				user.setAutoIncrementID(resultSet.getLong("id"));
 
 			}
@@ -215,7 +218,7 @@ public class UserDAO extends DAO {
     	
     	int updated = 0;
     	String query = "INSERT INTO users (username,email,password"
-    			+ ",account_type,first_name,last_name,house,street,postCode,county) VALUES (?,?,?,?,?,?,?,?,?,?)";
+    			+ ",account_type,first_name,last_name,house,street,postCode,county,phone) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 
     	try {
 			connection = getConnection();
@@ -237,6 +240,7 @@ public class UserDAO extends DAO {
 			pStatement.setString(8, user.getStreet());
 			pStatement.setString(9, user.getPostcode());
 			pStatement.setInt(10, user.getCounty());
+			pStatement.setString(11, user.getPhone());
 			updated = pStatement.executeUpdate();
 			
 			

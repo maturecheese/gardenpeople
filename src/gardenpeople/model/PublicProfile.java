@@ -32,10 +32,12 @@ public class PublicProfile {
     private boolean fencingOffered;
     private boolean pavingOffered;
     private boolean deckingOffered;
+    private ProfileImage profileImage;
 
     private boolean isRecordedOnDatabase = false;
     private Date updatedAt;
     ArrayList<ProfileImage> images;
+
 
     public PublicProfile(String username) {
         this.username = username;
@@ -46,6 +48,7 @@ public class PublicProfile {
         this.username = publicProfile.getUsername();
         this.updatedAt = publicProfile.getUpdatedAt();
         this.isRecordedOnDatabase = publicProfile.isRecordedOnDatabase();
+        this.profileImage = publicProfile.getProfileImage();
     }
 
     public void setFromParameterName(String parameterName, String parameterValue){
@@ -105,6 +108,14 @@ public class PublicProfile {
             default:
                break;
         }
+    }
+
+    public ProfileImage getProfileImage() {
+        return profileImage;
+    }
+
+    public void setProfileImage(ProfileImage profileImage) {
+        this.profileImage = profileImage;
     }
 
     public ArrayList<ProfileImage> getImages() {

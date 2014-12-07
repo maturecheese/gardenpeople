@@ -21,7 +21,7 @@
 			<div class="container">
 				<!--navbar-brand is used for titles - it has larger text -->
 
-				<a href="" class="navbar-brand">Gardener Website</a>
+				<a href="home" class="navbar-brand">Gardener Website</a>
 
 				<!-- button
             this button will appear if screen collapses (smaller screen)
@@ -183,6 +183,11 @@
 				<label for="postCode">Post Code:</label> <input type="text"
 					class="form-control" id="postCode" name="postcode"
 					placeholder="Enter post code" value="${user.postcode}">
+			</div>
+			<div class="form-group">
+				<label for="phone">Phone Number:</label> <input type="text"
+																class="form-control" id="phone" name="phone"
+																placeholder="Enter post code" value="${user.phone}">
 			</div>
 			<%--<div class="form-group">
 				<label for="county">Select County:</label> <select class="form-control"

@@ -122,5 +122,10 @@ label.valid {
     width: inherit;
 }
 
+.largetext{
+    font-size: large !important;
+    font-weight: bold !important;
+}
+
 
 

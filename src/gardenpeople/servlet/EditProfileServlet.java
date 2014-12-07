@@ -30,6 +30,7 @@ public class EditProfileServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		setCacheSetttings(response);
 		Gardener gardener = checkSession(request);
 		if(gardener == null){
 			response.sendRedirect("home");
@@ -39,6 +40,11 @@ public class EditProfileServlet extends HttpServlet {
 
 		/*System.out.println(gardener.getPublicProfile().getLatitude());
 		System.out.println(gardener.getPublicProfile().getLongitude());*/
+
+		if(request.getSession().getAttribute("errors")!= null){
+			request.setAttribute("errors", request.getSession().getAttribute("errors"));
+			request.getSession().setAttribute("errors", null);
+		}
 
 		request.getRequestDispatcher( "/WEB-INF/profile.jsp" ).forward(
 	            request, response );
@@ -50,6 +56,17 @@ public class EditProfileServlet extends HttpServlet {
 			response.sendRedirect("home");
 			return;
 		}
+
+
+		/*if(request.getParameter("save")== null){ //it is a photo upload instead. can't check upload
+												// parameter because of enctype="multipart/form-data"
+
+			System.out.println("adding personal photo");
+			request.getRequestDispatcher( "./PersonalPhoto" ).forward(
+					request, response );
+			return;
+		}*/
+
 		//System.out.println(gardener.getUsername() + "  username");
 		Enumeration<String> parameterNames = request.getParameterNames();
 		PublicProfile newProfile = new PublicProfile(gardener.getPublicProfile());
@@ -77,10 +94,12 @@ public class EditProfileServlet extends HttpServlet {
 		PublicProfileDAO publicProfileDAO= new PublicProfileDAO();
 
 		try {
-			if(gardener.getPublicProfile().getUsername() == null){
-                publicProfileDAO.addProfile(newProfile);
+			if(gardener.getPublicProfile().isRecordedOnDatabase()){
+                publicProfileDAO.editProfile(gardener.getUsername(), newProfile);
+				System.out.println("editing on  database");
             }else{
-                publicProfileDAO.editProfile(gardener.getUsername(),newProfile);
+                publicProfileDAO.addProfile(newProfile);
+				System.out.println("creating new on database");
             }
 		} catch (UserFriendlySQLException e) {
 			//TODO add error msg to request attribute
@@ -121,12 +140,23 @@ public class EditProfileServlet extends HttpServlet {
 		PublicProfile publicProfile = publicProfileDAO.getProfile(gardener.getUsername());
 		if (publicProfile == null) {
 			publicProfile = new PublicProfile(gardener.getUsername());
+			System.out.println("didn't find profile in database");
 
 		}else{
 			gardener.setProfileRecordedOnDatabase(true);
+			System.out.println("found profile in database");
+
 		}
 		gardener.setPublicProfile(publicProfile);
 		//request.getSession(true).setAttribute("profile", publicProfile);
 	}
 
+
+
+
+	private void setCacheSetttings(HttpServletResponse response){
+		response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
+		response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
+		response.setDateHeader("Expires", 0);
+	}
 }

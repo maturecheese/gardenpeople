@@ -21,7 +21,7 @@
 			<div class="container">
 				<!--navbar-brand is used for titles - it has larger text -->
 
-				<a href="" class="navbar-brand">Gardener Website</a>
+				<a href="home" class="navbar-brand">Gardener Website</a>
 
 				<!-- button
             this button will appear if screen collapses (smaller screen)
@@ -92,7 +92,7 @@
 		</div>
 	</div>
 
-	<div class="register">
+	<div class="container">
 	<h1>My Details
 	</h1>
 
@@ -118,7 +118,29 @@
 		</c:if> 
 		</div>--%>
 
-
+<div class = "row">
+	<div class = col-lg-6>
+	<h2></h2>
+		<div class="panel panel-default">
+			  <div class="panel-heading">
+			    <h3 class="panel-title">Details</h3>
+			  </div>
+			  <div class="panel-body">
+			    <b>Email</b>: ${user.email} <br>
+			    <b>First Name</b>: ${user.firstName} <br>
+			    <b>Last Name</b>: ${user.lastName} <br>
+			    <b>House number or name</b>: ${user.houseNumberName}<br>
+			    <b>Street Name</b>: ${user.street} <br>
+			    <b>Post Code</b>: ${user.postcode} <br>
+			    <c:if test="${sessionScope.user.gardener}">
+					<b>Company or trading name:</b>${user.publicProfile.tradename}<br>
+					<b>Description:</b>${user.publicProfile.description}<br>
+				</c:if>
+			  </div>
+		</div>
+	</div>
+	<div class = "col-lg-6">
+	<h2>Change My Details</h2>
 		<form role="form" action="details" method="post">
 			
 			<div class="form-group">
@@ -162,6 +184,11 @@
 					class="form-control" id="postCode" name="postcode"
 					placeholder="Enter post code" value="${user.postcode}">
 			</div>
+			<div class="form-group">
+				<label for="phone">Phone Number:</label> <input type="text"
+																class="form-control" id="phone" name="phone"
+																placeholder="Enter post code" value="${user.phone}">
+			</div>
 			<%--<div class="form-group">
 				<label for="county">Select County:</label> <select class="form-control"
 					id="county" name="county" value="">
@@ -185,7 +212,8 @@
 
 			<button type="submit" class="btn btn-default">Save All Changes</button>
 		</form>
-		
+		</div>
+</div>		
 	</div>
 	<!-- jquery-->
 <script src="${pageContext.request.contextPath}/resources/js/jquery-2.1.1.min.js"></script>

@@ -12,15 +12,15 @@
 
 
 
-  <servlet>
+  <!--<servlet>
     <servlet-name>gardenpeople.servlet.ProfilePhotosServlet</servlet-name>
-    <servlet-class>gardenpeople.servlet.ProfilePhotosServlet</servlet-class>
+    <servlet-class>gardenpeople.servlet.WorkPhotosUploadServlet</servlet-class>
   </servlet>
 
   <servlet-mapping>
     <servlet-name>gardenpeople.servlet.ProfilePhotosServlet</servlet-name>
     <url-pattern>/photos</url-pattern>
-  </servlet-mapping>
+  </servlet-mapping>-->
 
 
 </web-app>

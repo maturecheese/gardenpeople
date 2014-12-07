@@ -76,7 +76,7 @@
 
 									</div></li>
 								<li class=""><a class="" href="Register">Register</a></li>
-								<li class=""><a class="" href="FindGardener">Find a gardener</a></li>
+								<li class=""><a class="" href="findGardener">Find a gardener</a></li>
 							</c:when>
 							<c:otherwise>
 								<li class=""><a class="" href="#">${sessionScope.user.username}</a></li>
@@ -98,7 +98,7 @@
 				</div>
 
 			</div>
-			<!--end of nav bar-->
+			
 		</div>
 	</div>
 	<!--end navbar-->

@@ -13,6 +13,7 @@ public class User {
 	protected String password;
 	protected String repeatedPassword;
 	protected String accountType;
+	private String phone;
 
 
 	protected String firstName;
@@ -32,6 +33,7 @@ public class User {
 		this.username = username;
 		this.email = email;
 
+
 	}
 
 
@@ -40,6 +42,7 @@ public class User {
 		this.username = username;
 		this.email = email;
 		this.password = password;
+		this.phone = "0208 399 9999";
 	}
 	public User(User user){
 		this.username = user.getUsername();
@@ -52,6 +55,7 @@ public class User {
 		this.street = user.getStreet();
 		this.postcode = user.getPostcode();
 		this.autoIncrementID = user.getAutoIncrementID();
+		this.phone = user.getPhone();
 	}
 
 	public void setFromParameterName(String parameterName,String parameterValue){
@@ -79,6 +83,12 @@ public class User {
 				break;
 			case "street":
 				this.street = parameterValue;
+				break;
+			case "phone":
+				this.phone = parameterValue;
+				break;
+			case "accountTypeRadios":
+				this.accountType = parameterValue;
 				break;
 			default:
 				break;
@@ -110,6 +120,13 @@ public class User {
 		this.repeatedPassword = repeatedPassword;
 	}
 
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
 
 	public String getFirstName() {
 		return firstName;

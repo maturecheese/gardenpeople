@@ -26,11 +26,14 @@ public class FindGardenerServlet extends HttpServlet {
 
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String searchTerm = "";
 		if (request.getParameter("searchbyname") != null){
+
 			response.sendRedirect("./Results?name="+request.getParameter("searchterm"));
 		}
 		else if (request.getParameter("searchbypos") != null){
-			response.sendRedirect("./Results?lat="+request.getParameter("Latitude")+"&lng="+request.getParameter("Longitude")+"&radius="+request.getParameter("radius"));
+			response.sendRedirect("./Results?lat="+request.getParameter("Latitude")+"&lng="+request.getParameter("Longitude"));
+			//+"&radius="+request.getParameter("radius")
 		}
 	}
 

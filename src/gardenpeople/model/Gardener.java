@@ -1,5 +1,6 @@
 package gardenpeople.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Gardener extends User{
@@ -11,7 +12,12 @@ public class Gardener extends User{
 	private String description;
 
 	private PublicProfile publicProfile;
+	private int reviewCount;
+	private float avgReviewScore;
 
+	private ArrayList<Review> reviews;
+
+	public Gardener(){}
 
 	public Gardener(String username, String email){
 		super(username, email);
@@ -23,7 +29,33 @@ public class Gardener extends User{
 	public Gardener (User user){
 		super(user);
 	}
+	public Gardener(String username, String email, String password){
+		super(username, email, password);
+	}
 
+	public int getReviewCount() {
+		return reviewCount;
+	}
+
+	public void setReviewCount(int reviewCount) {
+		this.reviewCount = reviewCount;
+	}
+
+	public float getAvgReviewScore() {
+		return avgReviewScore;
+	}
+
+	public void setAvgReviewScore(float avgReviewScore) {
+		this.avgReviewScore = avgReviewScore;
+	}
+
+	public ArrayList<Review> getReviews() {
+		return reviews;
+	}
+
+	public void setReviews(ArrayList<Review> reviews) {
+		this.reviews = reviews;
+	}
 
 	public PublicProfile getPublicProfile() {
 		return publicProfile;
@@ -64,8 +96,5 @@ public class Gardener extends User{
 		this.isProfileRecordedOnDatabase = isProfileRecordedOnDatabase;
 	}
 
-	public Gardener(String username, String email, String password){
-		super(username, email, password);
-	}
 
 }

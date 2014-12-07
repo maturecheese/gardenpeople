@@ -1,13 +1,8 @@
 package gardenpeople.dao;
 
 import gardenpeople.exception.UserFriendlySQLException;
-import gardenpeople.model.GardenOwner;
-import gardenpeople.model.Gardener;
-import gardenpeople.model.PublicProfile;
+import gardenpeople.model.*;
 
-
-
-import gardenpeople.model.User;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -54,6 +49,7 @@ public class PublicProfileDAO extends DAO {
                 publicProfile.setGoogleLocation(resultSet.getString("google_location"));
                 publicProfile.setRecordedOnDatabase(true);
                 publicProfile.setUpdatedAt(resultSet.getTimestamp("updated_at"));
+                publicProfile.setProfileImage( new ProfileImage(resultSet.getString("personal_photo_path")));
 
             }
 
@@ -141,6 +137,43 @@ public class PublicProfileDAO extends DAO {
         return 0;
     }
 
+    public boolean editProfile(String username, String imagePath){
+        int updated =0;
+        String query = "UPDATE profiles SET personal_photo_path=? "
+                     + "WHERE username=?";
+        try {
+            connection = getConnection();
+            pStatement = connection.prepareStatement(query);
+            pStatement.setString(1, imagePath);
+            pStatement.setString(2, username);
+            updated = pStatement.executeUpdate();
+
+        } catch (ClassNotFoundException e) {
+
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+
+        }finally
+        {
+            try {
+                if(pStatement != null)
+                    pStatement.close();
+                if(connection != null)
+                    connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        }
+        if (updated >0){
+            return true;
+        }
+        return false;
+    }
+
+
     public boolean editProfile(String username, PublicProfile newProfile)throws UserFriendlySQLException{
         int updated =0;
         String query = "UPDATE profiles SET tradename=? , description=? ,"
@@ -205,7 +238,10 @@ public class PublicProfileDAO extends DAO {
     	
 		
         try {
-            String query = "SELECT username, ( 3959 * acos( cos( radians(?) ) * cos( radians(lat ) ) * cos( radians(lng) - radians(?)) + sin(radians(?))  * sin( radians(lat)))) AS distance, radius FROM profiles  HAVING (distance < radius AND distance < ?) ORDER BY distance;";
+            String query = "SELECT username, ( 3959 * acos( cos( radians(?) ) *" +
+                    " cos( radians(lat ) ) * cos( radians(lng) - radians(?)) + sin(radians(?)) " +
+                    " * sin( radians(lat)))) AS distance, radius FROM profiles  " +
+                    "HAVING (distance < radius AND distance < ?) ORDER BY distance;";
             connection = getConnection();
             PreparedStatement pStatement = connection.prepareStatement(query);
             pStatement.setFloat(1, lat);
@@ -257,6 +293,64 @@ public class PublicProfileDAO extends DAO {
         }
         return  ll;
 	}
+
+    public List<PublicProfile> getProfilesByName(String name) {
+        // TODO Auto-generated method stub
+        List<PublicProfile> ll = new ArrayList<PublicProfile>();
+
+
+
+        try {
+            String query = "Select * FROM profiles WHERE tradename LIKE ?";
+            connection = getConnection();
+            PreparedStatement pStatement = connection.prepareStatement(query);
+            pStatement.setString(1, "%" + name + "%");
+
+            ResultSet resultSet = pStatement.executeQuery();
+            while (resultSet.next()) {
+                PublicProfile publicProfile = new PublicProfile(resultSet.getString("username"));
+                publicProfile.setTradename(resultSet.getString("tradename"));
+                publicProfile.setDescription(resultSet.getString("description"));
+                publicProfile.setLatitude(resultSet.getFloat("lat"));
+                publicProfile.setLongitude(resultSet.getFloat("lng"));
+                publicProfile.setRadius(resultSet.getInt("radius"));
+                publicProfile.setRhs1(resultSet.getBoolean("rhs_1"));
+                publicProfile.setRhs2(resultSet.getBoolean("rhs_2"));
+                publicProfile.setRhs3(resultSet.getBoolean("rhs_3"));
+                publicProfile.setRhsMaster(resultSet.getBoolean("rhs_master"));
+                publicProfile.setMaintenanceOffered(resultSet.getBoolean("maintenance"));
+                publicProfile.setDesignOffered(resultSet.getBoolean("design"));
+                publicProfile.setTreeSurgeryOffered(resultSet.getBoolean("treesurgery"));
+                publicProfile.setWaterFeaturesOffered(resultSet.getBoolean("waterfeatures"));
+                publicProfile.setFencingOffered(resultSet.getBoolean("maintenance"));
+                publicProfile.setMaintenanceOffered(resultSet.getBoolean("fencing"));
+                publicProfile.setPavingOffered(resultSet.getBoolean("paving"));
+                publicProfile.setDeckingOffered(resultSet.getBoolean("decking"));
+                publicProfile.setGoogleLocation(resultSet.getString("google_location"));
+                // publicProfile.setRecordedOnDatabase(true);
+                // publicProfile.setUpdatedAt(resultSet.getTimestamp("updated_at"));
+                //Assuming you have a user object
+
+                ll.add(publicProfile);
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if(pStatement != null)
+                    pStatement.close();
+                if(connection != null)
+                    connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return  ll;
+    }
 
 }
 

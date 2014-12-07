@@ -108,7 +108,7 @@
   </div>
 </div>
 
-<div class="register">
+<div class="col-lg-6">
   <h1>My Profile</h1>
 
  <%-- <c:if test="${not user.profileRecordedOnDatabase}">

@@ -8,6 +8,7 @@ import gardenpeople.validator.UserValidator;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -40,19 +41,14 @@ public class RegisterServlet extends HttpServlet {
 
 
         User user = new User();
-
         user.setUsername(request.getParameter("username"));
-        user.setEmail(request.getParameter("email"));
-        user.setPassword(request.getParameter("password1"));
-        user.setRepeatedPassword(request.getParameter("password2"));
-        user.setFirstName(request.getParameter("firstName"));
-        user.setLastName(request.getParameter("lastName"));
-        user.setHouseNumberName(request.getParameter("house"));
-        user.setPostcode(request.getParameter("postcode"));
-        user.setStreet(request.getParameter("street"));
-        //user.setCounty(Integer.parseInt(request.getParameter("county")));
-        user.setAccountType(request.getParameter("accountTypeRadios"));
 
+        Enumeration<String> parameterNames = request.getParameterNames();
+        while(parameterNames.hasMoreElements()){
+            String parameterName = parameterNames.nextElement();
+            String parameterValue = request.getParameter(parameterName);
+            user.setFromParameterName(parameterName, parameterValue);
+        }
 
 
         UserValidator v = new UserValidator();

@@ -5,7 +5,7 @@ To get the photos page working you have to do the following:
 1)go to guide below and edit your tomcat server.xml. http://www.moreofless.co.uk/static-content-web-pages-images-tomcat-outside-war/ You must point it to a local directory on your machine where the images are uploaded to
 ....change docBase to images folder on your machine, set path="/images"
 
-2)in gardenpeople.servlet.ProfilePhotosServlet change UPLOAD_PATH to the path to images folder. Restart tomcat. Now it should work!
+2)in gardenpeople.servlet.WorkPhotosUploadServlet change UPLOAD_PATH to the path to images folder. Restart tomcat. Now it should work!
 
 Things to do...
 
