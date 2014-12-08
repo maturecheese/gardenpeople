@@ -18,86 +18,106 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by mark-i5 on 06/12/2014.
  */
 @WebServlet("/showProfile")
 public class ShowProfileServlet extends HttpServlet {
+
+    private String referer ="/Results";
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         //leave review
 
+        ArrayList<String> errors = new ArrayList<String>();
+        Long gardenerID  = getGardenerID(request);
         String searchTerm =  request.getParameter("search_term");
-        if(request.getSession(false) != null){
-            User user = (User) request.getSession(false).getAttribute("user");
-            if(user != null){
-
-                Review review = new Review();
-                review.setAuthorUsername(user.getUsername());
-                review.setGardenerUsername(request.getParameter("gardener_username"));
-                review.setRating(Integer.parseInt(request.getParameter("rating")));
-                review.setText(request.getParameter("comment"));
-
-                ReviewValidator reviewValidator = new ReviewValidator();
-                reviewValidator.checkReview(review);
-
-                if(reviewValidator.getErrors().size() > 0){
-
-                }
-
-
-                ReviewDAO reviewDAO= new ReviewDAO();
-                reviewDAO.addReview(review);
-
-
-                if (searchTerm != null){
-                    searchTerm = searchTerm.substring(1);
-                }
-
-                response.sendRedirect("../" + searchTerm);
-                return;
-            }
-
-
-
+        System.out.println("gardener_id = " +gardenerID);
+        if(gardenerID == null){
+            response.sendRedirect("home");
+            return;
         }
-        response.sendRedirect("../" + searchTerm);
+        Gardener gardener = getGardenerWithImagesAndReviews(gardenerID);
+        request.setAttribute("gardener", gardener);
+        request.setAttribute("searchTerm", searchTerm);
+
+        if(request.getSession(false) == null || request.getSession(false).getAttribute("user") == null){
+            errors.add("you must be logged in to add a review");
+            request.setAttribute("errors", errors);
+            request.getRequestDispatcher("/WEB-INF/showProfile.jsp").forward(request, response);
+            return;
+        }
+
+        User user = (User) request.getSession(false).getAttribute("user");
+
+
+        Review review = new Review();
+        review.setAuthorUsername(user.getUsername());
+        review.setGardenerUsername(request.getParameter("gardener_username"));
+
+        try { review.setRating(Integer.parseInt(request.getParameter("rating")));
+        } catch (NumberFormatException e) {review.setRating(0);}
+
+        review.setText(request.getParameter("comment"));
+
+        ReviewValidator reviewValidator = new ReviewValidator();
+        reviewValidator.checkReview(review);
+
+        if(reviewValidator.getErrors().size() > 0){
+            request.setAttribute("errors", reviewValidator.getErrors());
+            request.getRequestDispatcher("/WEB-INF/showProfile.jsp").forward(request, response);
+            return;
+        }
+
+        review.setCreatedAt(new Date());
+        gardener.getReviews().add(0, review);
+        request.setAttribute("confirmation", reviewValidator.getConfirmationWithTime());
+        request.getRequestDispatcher("/WEB-INF/showProfile.jsp").forward(request, response);
         return;
-       // System.out.println("WTF");
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+
+
+        String searchTerm = getSearchTerm(request);// get parameters necessary to link back to the exact search from the view profile page
+        Long gardenerID  = getGardenerID(request);
+        if(gardenerID == null){
+            response.sendRedirect("home");
+            return;
+        }
+        Gardener gardener = getGardenerWithImagesAndReviews(gardenerID);
+        if(gardener!= null){
+
+             request.setAttribute("searchTerm", searchTerm);
+            request.setAttribute("lat", request.getParameter("lat"));
+            request.setAttribute("lng", request.getParameter("lng"));
+            request.setAttribute("name", request.getParameter("name"));
+            request.setAttribute("gardener", gardener);
+            request.getRequestDispatcher("/WEB-INF/showProfile.jsp").forward(request,response);
+        }
 
 
 
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        long gardenerID;
-
-        String searchTerm = null;
-        String lat = "";
-        String lng = "";
-        String name = "";
+    private Long getGardenerID(HttpServletRequest request){
+        Long gardenerID = null;
         try {
-            if(request.getHeader("referer") != null){
-
-                String refererURI = new URI(request.getHeader("referer")).getPath();
-                name = request.getParameter("name");
-                lat = request.getParameter("lat");
-                lng = request.getParameter("lng");
-                searchTerm = rebuildSearchUrl(refererURI,lat,lng,name);
-            }
-            System.out.println(searchTerm);
-
-
-
-            System.out.println(request.getParameter("search_term"));
             gardenerID = Long.parseLong( request.getParameter("id"));
-        } catch (NumberFormatException | URISyntaxException e) {
-            response.sendRedirect("home");
-            return;
 
-        }
+        } catch (NumberFormatException  e) {}
+        try {
+            gardenerID = Long.parseLong( request.getParameter("gardener_id"));
+
+        } catch (NumberFormatException  e) {}
+        return  gardenerID;
+    }
+
+    private Gardener getGardenerWithImagesAndReviews(long gardenerID){
 
         GardenerDAO gardenerDAO = new GardenerDAO();
         Gardener gardener = gardenerDAO.getGardenerWithProfile(gardenerID);
@@ -114,17 +134,31 @@ public class ShowProfileServlet extends HttpServlet {
             System.out.println("num review " + reviews.size());
             gardener.setReviews(reviews);
 
-            request.setAttribute("searchTerm", searchTerm);
-            request.setAttribute("lat", lat);
-            request.setAttribute("lng", lng);
-            request.setAttribute("name", name);
-            request.setAttribute("gardener", gardener);
-            request.getRequestDispatcher("/WEB-INF/showProfile.jsp").forward(request,response);
+
         }
-
-
-
+        return gardener;
     }
+
+    private String getSearchTerm(HttpServletRequest request){
+        String searchTerm = null;
+        if(request.getHeader("referer") != null){
+
+            String refererURI = null;
+            try {
+                refererURI = new URI(request.getHeader("referer")).getPath();
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+            String name = request.getParameter("name");
+            String lat = request.getParameter("lat");
+            String lng = request.getParameter("lng");
+            searchTerm = rebuildSearchUrl(refererURI,lat,lng,name);
+        }
+        System.out.println(searchTerm);
+        return searchTerm;
+    }
+
+
 
 
 

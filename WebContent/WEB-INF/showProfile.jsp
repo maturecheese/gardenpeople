@@ -326,6 +326,19 @@
         <div class="col-md-6">
             <h3>Leave a Review</h3>
 
+            <c:if test="${fn:length(errors) > 0}">
+                <div class="error">
+                    <ul>
+                        <c:forEach items="${errors}" var="error">
+                            <li>${error}</li>
+                        </c:forEach>
+                    </ul>
+                </div>
+            </c:if>
+            <c:if test="${not empty confirmation}">
+                <div class="success">${confirmation}</div>
+            </c:if>
+
             <div class="well well-sm">
                 <div class="text-right">
                     <a class="btn btn-success btn-green" href="#reviews-anchor" id="open-review-box">Leave a Review</a>
@@ -340,6 +353,7 @@
                             <input name="lat" type="hidden" value="${lat}">
                             <input name="lng" type="hidden" value="${lng}">
                             <input name="name" type="hidden" value="${name}">
+                            <input name="gardener_id" type="hidden" value="${gardener.autoIncrementID}">
                             <textarea class="form-control animated" cols="50" id="new-review" name="comment"
                                       placeholder="Enter your review here..." rows="5"></textarea>
 
