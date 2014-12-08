@@ -71,9 +71,14 @@ public class ShowProfileServlet extends HttpServlet {
             return;
         }
 
+        ReviewDAO reviewDAO = new ReviewDAO();
+        if(!reviewDAO.addReview(review)){
+            errors.add("there seems to be some problem saving the review. Most likely a connection problem");
+        }else{
+            request.setAttribute("confirmation", reviewValidator.getConfirmationWithTime());
+        }
         review.setCreatedAt(new Date());
         gardener.getReviews().add(0, review);
-        request.setAttribute("confirmation", reviewValidator.getConfirmationWithTime());
         request.getRequestDispatcher("/WEB-INF/showProfile.jsp").forward(request, response);
         return;
     }
