@@ -293,8 +293,7 @@
                         <div class="well">
                             <div class="media">
 
-                                <div class="media-body">
-                                    <h4 class="media-heading">Review ${loop.index +1}</h4>
+                                <div class="media-body"><h4>${review.ratingDescription}</h4>
 
                                     <p class="text-right">By ${review.authorUsername}</p>
 

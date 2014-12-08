@@ -72,4 +72,21 @@ public class Review {
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
+
+    public String getRatingDescription(){
+        switch (this.rating){
+            case 1:
+                return "very poor";
+            case 2:
+                return "quite poor";
+            case 3:
+                return "average";
+            case 4:
+                return "very good";
+            case 5:
+                return "excellent";
+            default:
+                return "";
+        }
+    }
 }
